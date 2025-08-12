@@ -1,0 +1,25 @@
+{
+  "name": "nexiv-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nivx18818/nexiv-api.git"
+  },
+  "author": "NguyenXuanVinh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nivx18818/nexiv-api/issues"
+  },
+  "homepage": "https://github.com/nivx18818/nexiv-api#readme",
+  "description": "",
+  "dependencies": {
+    "@google/genai": "^1.13.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "module-alias": "^2.2.3"
+  }
+}
