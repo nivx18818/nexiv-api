@@ -6,7 +6,11 @@
     "@": "./src"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch server.js",
+    "start": "node server.js",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all",
+    "migration:create": "sequelize-cli migration:create"
   },
   "repository": {
     "type": "git",
@@ -23,6 +27,11 @@
     "@google/genai": "^1.13.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "module-alias": "^2.2.3"
+    "module-alias": "^2.2.3",
+    "mysql2": "^3.14.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.3"
   }
 }
