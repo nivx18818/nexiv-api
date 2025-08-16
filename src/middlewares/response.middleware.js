@@ -5,8 +5,8 @@ const response = (req, res, next) => {
     }
 
     return res.status(status ?? 200).json({
-      success: true,
       data,
+      error: null,
     });
   };
 
@@ -16,9 +16,11 @@ const response = (req, res, next) => {
     }
 
     const response = {
-      success: false,
-      message: message ?? err?.toString(),
-      details: details ?? null,
+      data: null,
+      error: {
+        message: message ?? err?.toString(),
+        details: details ?? null,
+      },
     };
 
     return res.status(status ?? 500).json(response);
