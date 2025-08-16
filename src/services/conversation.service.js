@@ -11,6 +11,11 @@ exports.getById = async (id) => {
   return conversation;
 };
 
+exports.create = async () => {
+  const newConversation = await Conversation.create();
+  return newConversation;
+};
+
 exports.summarize = async (conversationId, messages) => {
   const chat = ai.chats.create({
     model: "gemini-2.0-flash-lite",
