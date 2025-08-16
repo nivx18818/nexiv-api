@@ -5,13 +5,15 @@ const conversationService = require("@/services/conversation.service");
 const messageService = require("@/services/message.service");
 
 exports.detectIntent = async (context) => {
+  if (!context.length) return prompts.other;
+
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash-lite",
     contents: context,
     config: {
       systemInstruction: prompts.intentClassification,
       temperature: 0.1,
-      responseMimeType: "text/x.enum",
+      responseMimeType: "application/json",
       responseJsonSchema: {
         type: Type.STRING,
         enum: Object.keys(prompts).filter((key) => key !== "intentClassification"),
@@ -23,6 +25,12 @@ exports.detectIntent = async (context) => {
 };
 
 exports.sendMessage = async (conversationId, message) => {
+  const newUserMessage = await messageService.create({
+    conversationId,
+    role: "user",
+    content: message,
+  });
+
   const context = await conversationService.getContext(conversationId);
   const systemPrompt = await this.detectIntent(context);
 
@@ -35,18 +43,11 @@ exports.sendMessage = async (conversationId, message) => {
     },
   });
 
-  const response = systemPrompt
-    ? await chat.sendMessage(message)
-    : {
-        text: "Sorry, I can only help with creative content or language tasks. Please ask something related to writing, editing, or language support.",
-      };
+  const response = await chat.sendMessage({ message });
+  const newModelMessages = {
+    role: "model",
+    content: response.text,
+  };
 
-  const newMessages = [
-    { role: "user", content: message },
-    { role: "model", content: response.text },
-  ];
-  return newMessages.forEach(async (msgData) => {
-    const newMessage = await messageService.create({ conversationId, ...msgData });
-    return newMessage;
-  });
+  return [newUserMessage, newModelMessages];
 };
