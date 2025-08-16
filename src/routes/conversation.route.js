@@ -15,6 +15,7 @@ module.exports = {
   include: {
     model: Message,
     as: "messages",
-    excludes: ["updatedAt"],
+    attributes: { exclude: ["updatedAt"] },
+    required: false,
   },
 };
