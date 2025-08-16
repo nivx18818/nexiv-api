@@ -4,7 +4,6 @@ exports.getMessagesByConversation = async (conversationId, maxMessages = 10) => 
   const messages = await Message.findAll({
     attributes: ["role", "content"],
     where: { conversationId },
-    order: [["createdAt", "DESC"]],
     limit: maxMessages,
   });
   return messages;
