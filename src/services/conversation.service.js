@@ -39,6 +39,9 @@ exports.summarize = async (conversationId, messages) => {
 
 exports.getContext = async (conversationId) => {
   const messages = await messageService.getMessagesByConversation(conversationId);
+
+  if (!messages.length) return [];
+
   const context = messages.map((m) => ({
     role: m.role,
     parts: [{ text: m.content }],
