@@ -35,14 +35,18 @@ exports.sendMessage = async (conversationId, message) => {
     },
   });
 
-  const response = await chat.sendMessage(message);
+  const response = systemPrompt
+    ? await chat.sendMessage(message)
+    : {
+        text: "Sorry, I can only help with creative content or language tasks. Please ask something related to writing, editing, or language support.",
+      };
+
   const newMessages = [
     { role: "user", content: message },
     { role: "model", content: response.text },
   ];
-  newMessages.forEach(async (msgData) => {
-    await messageService.create({ conversationId, ...msgData });
+  return newMessages.forEach(async (msgData) => {
+    const newMessage = await messageService.create({ conversationId, ...msgData });
+    return newMessage;
   });
-
-  return response;
 };
