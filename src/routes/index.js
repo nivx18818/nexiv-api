@@ -28,7 +28,15 @@ fs.readdirSync(__dirname)
       next();
     });
 
-    const pathname = `/${resource}s`;
+    const pathname = (() => {
+      switch (resource) {
+        case "conversation":
+          return "/c";
+        default:
+          return `/${resource}s`;
+      }
+    })();
+
     mainRouter.use(pathname, subRouter);
   });
 
