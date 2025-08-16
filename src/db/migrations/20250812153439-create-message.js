@@ -9,6 +9,14 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
+      conversation_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: "conversations",
+          key: "id",
+        }
+      },
       role: {
         type: Sequelize.STRING(20),
         allowNull: false,
