@@ -9,6 +9,8 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
+      created_at: Sequelize.DATE,
+      updated_at: Sequelize.DATE,
     });
   },
 
