@@ -2,6 +2,7 @@ require("dotenv").config();
 require("module-alias/register");
 
 const express = require("express");
+const cors = require("cors");
 
 const response = require("@/middlewares/response.middleware");
 const handleError = require("@/middlewares/handle-error.middleware");
@@ -12,6 +13,11 @@ const mainRouter = require("@/routes");
 const app = express();
 const port = 3001;
 
+app.use(
+  cors({
+    origin: process.env.APP_ORIGIN,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded());
 
