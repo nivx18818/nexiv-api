@@ -25,12 +25,6 @@ exports.detectIntent = async (context) => {
 };
 
 exports.sendMessage = async (conversationId, message) => {
-  const newUserMessage = await messageService.create({
-    conversationId,
-    role: "user",
-    content: message,
-  });
-
   const context = await conversationService.getContext(conversationId);
   const systemPrompt = await this.detectIntent(context);
 
@@ -44,10 +38,18 @@ exports.sendMessage = async (conversationId, message) => {
   });
 
   const response = await chat.sendMessage({ message });
-  const newModelMessages = {
+
+  const newUserMessage = await messageService.create({
+    conversationId,
+    role: "user",
+    content: message,
+  });
+
+  const newModelMessage = await messageService.create({
+    conversationId,
     role: "model",
     content: response.text,
-  };
+  });
 
-  return [newUserMessage, newModelMessages];
+  return [newUserMessage, newModelMessage];
 };
